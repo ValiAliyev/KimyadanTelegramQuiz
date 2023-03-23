@@ -1,0 +1,36 @@
+import telebot
+bot = telebot.TeleBot('5462017697:AAGpT6A1Gx1Oq-dx_d3spVOUhqzQBKWyI2Q')
+
+from Questions import questions
+
+answers = ["a", "b", "b"]
+
+scores = {}
+
+def ask_question(chat_id, question_num):
+    bot.send_message(chat_id, questions[question_num])
+    scores[chat_id]["question_num"] = question_num
+    bot.register_next_step_handler_by_chat_id(chat_id, check_answer)
+
+def check_answer(message):
+    chat_id = message.chat.id
+    answer = message.text.lower()
+    if answer == answers[scores[chat_id]["question_num"]]:
+        scores[chat_id]["score"] += 1
+        bot.send_message(chat_id, "Correct! Your current score is {}".format(scores[chat_id]["score"]))
+    else:
+        bot.send_message(chat_id, "Incorrect. Your current score is {}".format(scores[chat_id]["score"]))
+    scores[chat_id]["question_num"] += 1
+    if scores[chat_id]["question_num"] < len(questions):
+        ask_question(chat_id, scores[chat_id]["question_num"])
+    else:
+        bot.send_message(chat_id, "Congratulations! Your final score is {}".format(scores[chat_id]["score"]))
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    chat_id = message.chat.id
+    scores[chat_id] = {"score": 0, "question_num": 0}
+    ask_question(chat_id, 0)
+
+while True:
+    bot.polling()
