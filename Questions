@@ -1,0 +1,5 @@
+questions = [
+    "Ən yüngül kimyəvi element hansıdır? \n(a) Hidrogen\n(b) Oksigen\n(c) Helium\n",
+    "Su otaq temperaturunda hansı aqreqat halında olur? \n(a) Bərk\n(b) Maye\n(c) Qaz\n",
+    "Sizin sualınız nədir?\n(a) Valiant_1\n(b) Variant_2\n(c) Variant_3\n"
+]
